@@ -1,0 +1,55 @@
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+  <a class="navbar-brand" href="#"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <img src="./assets/pic.png" width="45" height="45" class="d-inline-block align-top " alt="">
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+       <!-- <a class="btn btn-primary b2" routerLink='/asset-list'>LIST </a>
+      <br>
+      <a class="btn btn-primary b2" routerLink='/asset-create'> CREATE</a>  -->
+    </div>
+  </div>
+</nav> 
+<div class="container-fluid">
+<div class="container">
+  <h1 class ="head1">Manage PPT Assets</h1>
+  <a class="btn btn-primary b3" routerLink='/asset-create'> CREATE</a>
+<hr >
+<table id="users">
+  <tr>
+    <th scope="col" (click)="field('name')">NAME <i class="bi bi-caret-up-fill" *ngIf="sortOrder" ></i><i class="bi bi-caret-down-fill" *ngIf="!sortOrder" ></i></th >
+      <th scope="col" (click)="field('description')">DESCRIPTION <i class="bi bi-caret-up-fill" *ngIf="sortOrder" ></i><i class="bi bi-caret-down-fill" *ngIf="!sortOrder" ></i></th>
+      <th scope="col" (click)="field('identifier')">ASSET IDENTIFIER <i class="bi bi-caret-up-fill" *ngIf="sortOrder" ></i><i class="bi bi-caret-down-fill" *ngIf="!sortOrder" ></i></th>
+      <th scope="col" >STEWARD</th>
+      <th scope="col">ACTION</th>
+ 
+    <!-- <TH>Date</TH> -->
+  </tr>
+
+  <tr *ngFor="let assets of asset.data" >
+        <td>{{assets.name}}</td>
+        <td>{{assets.description}}</td>
+        <td>{{assets.identifier}}</td>
+       <td>{{assets.steward}}</td> 
+        <td style="text-align:center;"><button class=" bt btn-primary" routerLink='/asset-preview/{{assets.id}}'>VIEW <i class="bi bi-eye"></i></button></td>
+        <!-- <a class="btn btn-primary b2" routerLink='/asset-create'> CREATE</a> -->
+        <!-- <td>{{assets.effective_date}}</td> -->
+      </tr>
+</table>
+<div style="float:right;margin-top: 10px ;"> 
+
+  <ul class="nav nav-pills">
+ 
+  <td> <button type="button" class="btn btn-primary" (click)="page(pageNumber-1)"  [ngClass]="{'disabled':0==pageNumber}" >PREVIOUS</button></td>&nbsp;&nbsp;
+      <li class="nav-item" *ngFor="let p of numb;let i=index">
+      <a class="nav-link" (click)="page(i)" [ngClass]="{'active':i==pageNumber}">{{i+1}}</a> &nbsp; &nbsp; &nbsp;
+    </li>
+    &nbsp;&nbsp;<td> <button type="button" class="btn btn-primary" (click)="page(pageNumber+1)"  [ngClass]="{'disabled':3==pageNumber}" >NEXT</button></td>
+  </ul>
+  
+ 
+ </div>
+ </div>
+ </div>

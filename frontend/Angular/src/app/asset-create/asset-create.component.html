@@ -1,0 +1,178 @@
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+  <a class="navbar-brand" href="#"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <img src="./assets/pic.png" width="45" height="45" class="d-inline-block align-top " alt="">
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="btn btn-primary b2 b10" routerLink='/asset-list'>LIST </a>
+      <br>
+      <!-- <a class="btn btn-primary b2" routerLink='/asset-create'> CREATE</a>  -->
+    </div>
+  </div>
+</nav>
+<!-- <a class="btn btn-primary b2" routerLink='/asset-list'>LIST </a> -->
+<div class="container">
+  <h2 class="top">Upload - Powerpoint</h2>
+  <p style="text-align:right"><mark style="color:#FF0000">(*)</mark>This field is required</p>
+  <form #userform="ngForm" (ngSubmit)="saveasset(userform.value)" ngNativeValidate>
+    <div class='container-fluid'>
+      <div class="accordion accordion-flush" id="accordionFlushExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="flush-headingOne">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+              <b>Basic Information</b>
+            </button>
+          </h2>
+          <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+            data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+              <div class='someValue'>
+                <div class="mb-3">
+                  <label for="name" class="form-label"><b>Name</b><span style="color: red;"> * </span></label>
+                  <input type="text" required ngModel name="name" class="form-control" id="Name" #name="ngModel">
+                  <span *ngIf="name.invalid && name.touched" style="color:red">Please enter a valid name</span>
+
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <label for="effect_date" class="form-label"><b>Effective Date</b><span style="color: red;"> *
+                      </span></label>
+                    <input type="date" required name="ffdate" class="form-control" id="effective_date" ngModel
+                      #effect_date="ngModel" name="effective_date">
+                    <span *ngIf="effect_date.invalid && effect_date.touched" style="color:red">Please enter a valid
+                      date</span>
+                  </div>
+                  <div class="col-sm-6">
+                    <label for="expire_date" class="form-label"><b>Expiration Date</b><span style="color: red;"> *
+                      </span></label>
+                    <input type="date" required name="exdate" class="form-control" id="expire_date" ngModel
+                      name="expire_date" #expire_date="ngModel">
+                    <span *ngIf="expire_date.invalid && expire_date.touched" style="color:red">Please enter a valid
+                      date</span>
+                  </div>
+                  <span *ngIf="expire_date.dirty && expire_date.value <effect_date.value" style="color:red">Expiration
+                    date should be greater than effective date</span>
+                </div>
+                <br>
+                <div class="mb-3">
+                  <label for="desc"><b>Description </b><span style="color: red;"> * </span></label>
+                  <textarea class="form-control" required id="description" style="height: 100px" ngModel
+                    name="description" #desc="ngModel"></textarea>
+                  <span *ngIf="desc.invalid && desc.touched" style="color:red">Please enter a valid description</span>
+                </div>
+                <div class="mb-3">
+                  <label for="st"><b>Steward</b><span style="color: red;"> * </span></label>
+                  <select class="form-select" required aria-label="Default select example" ngModel name="steward"
+                    id="steward">
+                    <option selected value="">Select Steward</option>
+                    <option>Nursing</option>
+                    <option>Education</option>
+                  </select>
+                </div>
+                <b>Asset Identifier</b><span style="color: red;"> * </span><br>
+
+                <input type="text" class="form-control" required id="fname" name="fname" name="identifier" ngModel
+                  #ident="ngModel">
+                <span *ngIf="ident.invalid && ident.touched" style="color:red">Please enter the asset identifier</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="flush-headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+              aria-controls="panelsStayOpen-collapseTwo">
+              <b>Powerpoint Content</b>
+            </button>
+          </h2>
+          <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
+            aria-labelledby="panelsStayOpen-headingTwo">
+            <div class="accordion-body">
+              <div class="someValue tab">
+                <b>Upload Powerpoint</b><br><br>
+                <table class="table table-bordered ">
+                  <thead>
+                    <tr>
+                      <th scope="col">Language<span style="color: red;font-weight: lighter;"> * </span></th>
+                      <th scope="col">File<span style="color: red;font-weight: lighter;"> * </span></th>
+                      <th scope="col">Cover Image<span style="color: red;font-weight: lighter;"> * </span></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div>
+
+                          <select class="form-select" aria-label="Default select example" ngModel name="language">
+                            <option selected value="">Select Language</option>
+                            <option>Spanish</option>
+                            <option>English</option>
+                          </select>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="upload-btn-wrapper">
+                          <button class="btn btn-primary ">File Upload</button>
+                          <input type="file" [ngModel]='pptFileName' id="file" (change)="onFileSelected($event)"
+                            #fileUpload name="file_name" required>
+
+                        </div>
+                      </td>
+                      <td>
+                        <div class="upload-btn-wrapper">
+                          <button class="btn btn-primary">Image Upload</button>
+                          <input type="file" id="cover" name="cover_image_name" accept="image/*"
+                            (change)="photoFileSelected($event)" [ngModel]='imageFileName' required
+                            #photoUpload="ngModel" [class.is-invalid]="photoUpload.invalid && photoUpload.dirty">
+                          <small class="text-danger" [class.d-none]="photoUpload.valid || photoUpload.pristine">Please
+                            choose a Photo</small>
+                        </div>
+
+                      </td>
+
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3 right">
+          <br>
+          <button type="submit" class="btn btn-primary b3" [disabled]=userform.invalid>Save Changes</button>
+          <button type="reset" class="btn btn-secondary b9">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+
+
+<!-- <div class="row">
+  <div class="col-sm-3">
+    <label for="floatingTextarea2">LANGUAGE</label>
+    <select class="form-select"aria-label="Default select example" ngModel name="language" >
+     <option selected>ENGLISH</option>
+     <option >KANNADA</option>
+   </select>
+  </div>
+  <div class="col-sm-3">
+    <label for="file" class="form-label">FILE</label>
+
+    <input type="file"  id="file" (change)="onFileSelected($event)" #fileUpload name="file" ngModel accept="ppt/*" >
+  </div>
+  <div class="col-sm-3">
+    <label for="cover" class="form-label">coverimage</label>
+    <input type="file" id="cover" name="cover" ngModel accept="image/*" >
+    <br>
+  </div>
+
+
+</div> -->

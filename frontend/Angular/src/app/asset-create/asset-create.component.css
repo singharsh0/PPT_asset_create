@@ -1,0 +1,76 @@
+.someValue{
+    width: 50%;
+    margin: auto;
+    height: 20%;
+    padding: 10px;
+}
+.right
+{
+    position: relative;
+    left :49rem;
+}
+.top
+{
+    position: relative;
+    margin: 2rem 0px 0px 1rem ;
+
+}
+.asset
+{
+    width:100%;
+    border-radius: 5px;
+    border :1px solid rgb(177, 174, 174);
+}
+.table
+{
+width: 100%;
+
+
+}
+.tab
+{
+    width: 100%;
+}
+.b2
+  {
+    position: relative;
+    left: 90%;
+    top:0.1rem;
+    margin: 10px;
+    
+  }
+  .b3
+  {
+position:relative;
+right:-10rem;
+
+  }
+  .upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+  }
+   
+  .upload-btn-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+  }
+  .container
+  {
+    width:100%;
+  }
+  .b9
+  {
+    position:relative;
+    right:55rem;
+    margin: 10px;
+  }
+  .b10
+  {
+    
+    left:68rem;
+    
+  }

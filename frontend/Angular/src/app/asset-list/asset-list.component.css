@@ -1,0 +1,59 @@
+h1
+{
+    text-align: left;
+    color: blue;
+}
+
+
+#users {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  #users td, #users th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  #users tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #users tr:hover {background-color: #ddd;}
+  
+  #users th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: rgb(223, 217, 217);
+  }
+  .b1
+  {
+    border: 1px solid black;
+    color:white;
+    padding: 5px;
+    background-color:#005b92;
+  }
+  .b3
+  {
+    position: absolute;
+    left: 88%;
+    top: 2.4%;
+  }
+  .b2
+  {
+    position: relative;
+    left: 90%;
+    top:0.1rem;
+    margin: 10px;
+    
+  }
+  .head1
+  {
+    position: relative;
+    margin: 2rem 0px 1px 1rem;
+    font-family: 'Roboto', sans-serif;
+  }
+  .btn
+  {
+    align-self:centre;
+  }
