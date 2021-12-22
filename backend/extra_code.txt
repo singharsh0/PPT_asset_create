@@ -1,0 +1,736 @@
+#[Route('/api/asset/add', name: 'create')]
+    # @Method("POST")
+    
+    public function index(): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $assetManagerMaster = new AssetManagerMaster();
+        $assetManagerMaster->setName('Keyboard');
+        $assetManagerMaster->setEffectiveDate(new \DateTime());
+        $assetManagerMaster->setCreatedDate(new \DateTime());
+        $assetManagerMaster->setDescription('abcd');
+        
+        $entityManager->persist($assetManagerMaster);     
+        $entityManager->flush();
+
+        return new Response('Saved new assetManagerMaster with id '.$assetManagerMaster->getId());
+    }    
+    
+    
+    
+    // public function ucreate(Request $request,ValidatorInterface $validator)
+    // {
+        
+    //     $asset = new AssetManagerMaster();  
+    //     dump($request->request->get('id'));
+    //     //$abc={"name":"John", "age":30, "car":null}
+    //     // $asset->setAssetId($request->query->get('asset_id'));
+    //     $asset->setName($request->request->get('name', 'ss'));
+    //     $asset->setDescription($request->request->get('category', 'default category'));
+    //     $asset->setEffectiveDate(new \DateTime());
+    //     $asset->setExpirationDate(new \DateTime());
+    //     $asset->setCreatedDate(new \DateTime());        
+    //     $asset->setSteward($request->request->get('category', 'default category'));
+    //     $asset->setIdentifier($request->request->get('category', 'default category'));
+    //     $entityManager = $this->getDoctrine()->getManager();
+    //     $entityManager->persist($asset);
+    //     // actually executes the queries (i.e. the INSERT query)
+    //     $entityManager->flush();
+    //     $errors = $validator->validate($asset);
+    //     if (count($errors) > 0) {
+    //         return new Response((string) $errors, 400);
+    //     }else{
+    //         return new Response('New data added with id '.$asset->getId());
+    //     }
+               
+    //     return $this->render('base.html.twig');
+        
+    // }
+
+
+    // public function ucreate(Request $request,ValidatorInterface $validator)
+    // {
+        
+    //     $asset = new AssetManagerMaster();  
+    //     dump($request->request->get('id'));
+    //     //$abc={"name":"John", "age":30, "car":null}
+    //     // $asset->setAssetId($request->query->get('asset_id'));
+    //     $asset->setName($request->request->get('name', 'ss'));
+    //     $asset->setDescription($request->request->get('category', 'default category'));
+    //     $asset->setEffectiveDate(new \DateTime());
+    //     $asset->setExpirationDate(new \DateTime());
+    //     $asset->setCreatedDate(new \DateTime());        
+    //     $asset->setSteward($request->request->get('category', 'default category'));
+    //     $asset->setIdentifier($request->request->get('category', 'default category'));
+    //     $entityManager = $this->getDoctrine()->getManager();
+    //     $entityManager->persist($asset);
+    //     // actually executes the queries (i.e. the INSERT query)
+    //     $entityManager->flush();
+    //     $errors = $validator->validate($asset);
+    //     if (count($errors) > 0) {
+    //         return new Response((string) $errors, 400);
+    //     }else{
+    //         return new Response('New data added with id '.$asset->getId());
+    //     }
+               
+    //     return $this->render('base.html.twig');
+        
+    // }
+
+    ////////////////////////////////////////////////////////////
+    <?php
+
+namespace App\Controller;
+
+use App\Entity\AssetManagerMaster;
+use App\Entity\AssetManagerFileDetails;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+
+
+
+
+class AssetManagerController extends AbstractController
+{
+     #[Route("/api/asset/create", name:"user_asset_create")]
+     # @Method("POST")
+     # @param Request $request
+     
+
+    public function ucreate(Request $request,ValidatorInterface $validator)
+    {
+        
+        $parameters = json_decode($request->getContent(), true);
+
+        $asset = new AssetManagerMaster();  
+        $file = new AssetManagerFileDetails(); 
+        $temp="C:/Users/harsh.singh/Documents/ppt_creation/public/uploads/temp/";
+        $permanent="C:/Users/harsh.singh/Documents/ppt_creation/public/uploads/permanent/";
+        // $photos_directory=$this->getParameter('temp');
+        $image_name=$parameters['cover'];
+        //$abc=preg_match('[ \w-]++\.pptx',$image_name);
+        $image_name=str_replace("\v","v",$image_name);
+        $image_name=str_replace("\t","t",$image_name);
+        $image_name=str_replace("\r","r",$image_name);
+        $image_name=str_replace("\n","n",$image_name);
+        $image_name=str_replace("\f","f",$image_name);
+        $image_name=str_replace("\e","e",$image_name);
+        $image_name=str_replace("\\","",$image_name);
+        $image_name=str_replace("C:fakepath","",$image_name);
+        $file->setCoverImageFileName($image_name);
+        $file_name=$parameters['file_name'];
+        //$abd=preg_match_all('[ \w-]++\.jpg',$image_name);
+
+        $file_name=str_replace("\v","v",$file_name);
+        $file_name=str_replace("\t","t",$file_name);
+        $file_name=str_replace("\r","r",$file_name);
+        $file_name=str_replace("\n","n",$file_name);
+        $file_name=str_replace("\f","f",$file_name);
+        $file_name=str_replace("\e","e",$file_name);
+        $file_name=str_replace("\\","",$file_name);
+        $file_name=str_replace("C:fakepath","",$file_name);
+        $file->setFileName($file_name);
+        $asset->setName($parameters['Name']);
+        $asset->setDescription($parameters['desc']);
+        $asset->setEffectiveDate(new \DateTime($parameters['exdate']));
+        $asset->setExpirationDate(new \DateTime($parameters['ffdate']));
+        $asset->setCreatedDate(new \DateTime());        
+        $asset->setSteward($parameters['st']);  
+        $asset->setIdentifier($parameters['identifier']);  
+
+        $file->setCreatedDate(new \DateTime);
+        $file->setLanguage($parameters['language']);
+        // $file->setFileName($parameters['file_name']);
+        //$file->setFilePath($parameters['file_path']);
+        // $file->setCoverImageFileName($parameters['iname']);
+        // $file->setCoverImagePath($parameters['ipath']);
+        //$photos_directory=$this->getParameter('photos_directory');
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($asset);
+        $entityManager->persist($file);
+        // $data = json_decode($request->getContent(), true);
+        $entityManager->flush();
+
+        $file->setAssetId($asset->getId());
+        $entityManager->flush();
+        
+        $errors = $validator->validate($asset);
+        if (count($errors) > 0)
+        {
+            return new Response((string) $errors, 400);
+        }else 
+        {   $sourceDirFile=$temp.$file_name; 
+            $targetDirFile=$permanent.$file_name;
+            if (rename($sourceDirFile, $targetDirFile)) 
+            {   $sourceDirFile=$temp.$image_name;
+                $targetDirFile=$permanent.$image_name;
+                if (rename($sourceDirFile, $targetDirFile))
+                {
+                    return new Response('Saved new product with id '.$asset->getId().' Detail file id '.$file->getId()." in location temp\\".$file_name);
+                }
+            }     
+            else echo "<script>console.log(fail);</script>";
+        }
+    }
+
+    /**
+     * @Route("/api/asset/ppt_upload", name="ppt_temp")
+     */
+    public function uploading()
+    {
+        $photos_directory=$this->getParameter('temp');
+        //print_r($_FILES);
+        if(isset($_FILES['file'])){
+        //echo("HI");
+        $errors= "";
+        $file_name = $_FILES['file']['name'];
+        $file_size =$_FILES['file']['size'];
+        $file_tmp =$_FILES['file']['tmp_name'];
+        $file_type=$_FILES['file']['type'];
+        $temp=explode('.',$_FILES['file']['name']);
+        $file_ext=strtolower(end($temp));
+        
+        $extensions= array("ppt","pptx");            
+            
+        if(in_array($file_ext,$extensions)=== false){
+            $errors="extension not allowed, please choose a PPT file.";
+         }
+        if(empty($errors)==true){
+            move_uploaded_file($file_tmp,$photos_directory.$file_name);
+            echo "Success";
+        }else{
+            echo ($errors);
+        }
+
+    }
+    return new Response($errors);
+    }
+
+    /**
+     * @Route("/api/asset/img_upload", name="img_temp")
+     */
+    public function upload()
+    {
+        print_r($_FILES);
+        if(isset($_FILES['file'])){
+        echo("HI");
+        $errors= array();
+        $file_name = $_FILES['file']['name'];
+        $file_size =$_FILES['file']['size'];
+        $file_tmp =$_FILES['file']['tmp_name'];
+        $file_type=$_FILES['file']['type'];
+        $temp=explode('.',$_FILES['file']['name']);
+        $file_ext=strtolower(end($temp));
+        
+        $extensions= array("jpg","png");            
+            
+        if(in_array($file_ext,$extensions)=== false){
+            $errors[]="extension not allowed, please choose a JPG or PNG file.";
+         }
+        if(empty($errors)==true){
+            move_uploaded_file($file_tmp,"C:/Users/harsh.singh/Documents/ppt_creation/public/uploads/temp/".$file_name);
+            echo "Success";
+        }else{
+            print_r('$errors');
+        }
+
+    }
+    return $this->render('base.html.twig');
+    }
+
+//     /**
+//      * @Route("/product/show/{id}", name="product_show")
+//      */
+
+//    public function showAll(int $id): Response
+//    {
+      
+//       $products = $this->getDoctrine()
+//       ->getRepository(AssetManagerMaster::class)
+//       ->find($id);
+      
+//       $encoders = [new JsonEncoder()];
+//       $normalizers = [new ObjectNormalizer()];
+      
+//       $serializer = new Serializer($normalizers, $encoders);
+//       $jsonContent = $serializer->serialize($products, 'json');
+      
+
+//     //    if (!$products) {
+//     //        throw $this->createNotFoundException(
+//     //            'No product found for id '
+//     //        );
+//     //    }
+//     //    $productnames="<br>";
+//     //    foreach ($products as $product) {
+//     //          $productnames=array('name' => $product->getName(),'description' => $product->getDescription());
+//     //         //  $productnames."<br>".$product->getName();
+//     //         //$json_decoded = json_encode($productnames);
+//     //      }
+         
+//        return new Response('Check out this great products: '.$jsonContent);
+
+//     }
+
+/**
+     * @Route("/product/show", name="product_show")
+     */
+
+    public function showAll(): Response
+    {
+        $products = $this->getDoctrine()->getRepository(AssetManagerMaster::class)->findAll();
+        
+        try{
+            return $this->json($products);
+        } catch(\Error $e) {
+            $errorMessage = $e->getMessage();
+            $response = New Response();
+            $response -> setContent($errorMessage);
+            $response -> setStatusCode(Response::HTTP_BAD_REQUEST);
+            $response->headers->set('Content-Type', 'application/json');
+            return $response; 
+        }
+     
+     }
+     
+ 
+
+}
+/////////////////////////////////////////////////////////////////
+
+
+    #[Route("/api/asset/list/", name:"asset_list")]
+    # @Method("GET")
+
+    public function showAll(AssetManagerMasterRepository $AssetManagerMasterRepository,EntityManager $em,int $id): Response
+    {
+        $minPrice=$id;
+        $entityManager = $this->getDoctrine()->getManager();
+        $product = $this->getDoctrine()->getRepository(AssetManagerMaster::class)->findAll();
+        // $productss = $this->getDoctrine()
+        // ->getManager()
+        // ->$AssetManagerMasterRepository
+        // ->maxOfId();
+
+        // $products =  $this->getDoctrine()
+        // ->getManager()
+        // ->$AssetManagerMasterRepository
+        // ->findAllGreaterThanPrice($minPrice);
+        $last_entity =$this->entityManager->createQueryBuilder()
+        ->select('e')
+        ->from('AssetManagerMaster:Entity', 'e')
+        ->orderBy('e.id', 'DESC')
+        ->setMaxResults(1)
+        ->getQuery()
+        ->getOneOrNullResult();
+
+        // returns an array of Product objects
+        return $last_entity ->getResult();
+
+        // $assetNames="<br>";
+        // if (!$products) {
+        //     throw $this->createNotFoundException(
+        //         'No product found for id '.$id
+        //     );
+        // }
+        // $productnames="";
+        // foreach ($products as $product) {
+        //       $productnames=$productnames.",".$product->getName();
+        //   }
+        //return new Response('Check out this great products: '.$products);
+        // try{
+        //     // foreach($products as $asset)
+        //     // {
+        //     //     $assetNames=$assetNames.$asset->getName().$asset->getId().$asset->getDescription();
+            
+        //     // }
+        //     return $this->json($products["id"]);
+        //  } catch(\Error $e) {
+        //     $errorMessage = $e->getMessage();
+        //     $response = New Response();
+        //     $response -> setContent($errorMessage);
+        //     $response -> setStatusCode(Response::HTTP_BAD_REQUEST);
+        //     $response->headers->set('Content-Type', 'application/json');
+        //     return $response; 
+        //     //$products = $this->getDoctrine()->getRepository(Product::class)->findAllGreaterThanPrice($e);
+        // }
+     
+     }
+     //////////////////////////////////////////
+
+     /**
+     * @return AssetManagerMaster[]
+     */
+
+    public function maxOfId():int
+    {
+        $entityManager = $this->getEntityManager();
+
+         
+        $last_entity = $entityManager->createQueryBuilder()
+        ->select('e')
+        ->from('AssetManagerMaster:Entity', 'e')
+        ->orderBy('e.id', 'DESC')
+        ->setMaxResults(1)
+        ->getQuery()
+        ->getOneOrNullResult();
+
+        // returns an array of Product objects
+        return $last_entity ->getResult();
+    }
+    ///////////////////////////////////////////
+
+    if($file_ext=="pptx"||$file_ext=="ppt")
+            {   
+                try{
+                    if(in_array($file_ext,$ppt_extension)=== false){
+                        $errors="Extension not allowed.";
+                        $response->setStatusCode( 500, 'Not Successful' );
+                        $response->setContent(json_encode(['message' => 'errors', 'errors' => $errors ]));               
+                    }else
+                    {
+                        move_uploaded_file($file_tmp,$directory.$file_name);
+                        $response->setStatusCode( 200, 'Success' );
+                        $this->flag1=1;
+                        
+                    }
+                }catch(\Error $e) {
+                    $response->setStatusCode(400);
+                    $response->setContent(json_encode(['message' => 'errors', 'errors' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine(), 'trace' => $e->getTraceAsString()]));
+                }
+            return $response;
+            }else{
+                try{   
+                    if(in_array($file_ext,$img_extension)=== false){
+                        $errors="Extension not allowed.";
+                        $response->setStatusCode( 500, 'Not Successful' );
+                        $response->setContent(json_encode(['message' => 'errors', 'errors' => $errors ]));  
+                    }else{
+                        move_uploaded_file($file_tmp,$directory.$file_name);
+                        $response->setStatusCode( 200, 'Success' );       
+                        $this->flag2=1;
+                    }
+                }
+                catch(\Error $e) {
+                    $response->setStatusCode(400);
+                    $response->setContent(json_encode(['message' => 'errors', 'errors' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine(), 'trace' => $e->getTraceAsString()]));
+                }
+            }
+            return $response;
+        }
+
+        /////////////////////////////////////////////////////////////////////////////
+
+
+        
+    // /**
+    //  * @return AssetManagerMaster[] Returns an array of AssetManagerMaster objects
+    //  */
+    /*
+    public function findByExampleField($value)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.exampleField = :val')
+            ->setParameter('val', $value)
+            ->orderBy('a.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    */
+
+    /*
+    public function findOneBySomeField($value): ?AssetManagerMaster
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.exampleField = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+    */
+    // /**
+    //  * @return AssetManagerMaster[]
+    //  */
+    // public function findAllGreaterThanPrice(\Error $e)
+    // {
+   
+    //     $errorMessage = $e->getMessage();
+    //     $response = New Response();
+    //     $response -> setContent($errorMessage);
+    //     $response -> setStatusCode(Response::HTTP_BAD_REQUEST);
+    //     $response->headers->set('Content-Type', 'application/json');
+    //     return $response; 
+        
+    // } 
+
+    //////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+*     "get":{
+    *       "parameters":[
+    *         { "name": "fieldName"
+    *           "in": "query"
+    *           "required": false
+    *           "example": "id"
+    *           "schema":{
+    *             "type": "string"
+    *                }
+    *            },
+    *         { "name": "offset"
+    *           "in": "query"
+    *           "required": false
+    *           "example": '0'
+    *           "schema":{
+    *             "type": "string"
+    *                }
+    *            },
+    *         { "name": "sorting"
+    *           "in": "query"
+    *           "required": false
+    *           "example": 'desc'
+    *           "schema":{
+    *             "type": "string"
+    *         { "name": "limit"
+    *           "in": "query"
+    *           "required": false
+    *           "example": '10'
+    *           "schema":{
+    *             "type": "string"
+    *                }
+    *            },
+    *   ],
+    *       "responses":{
+    *         '200':
+    *           "description": "Definition generated from Swagger Inspector"
+    *           
+    *            }
+    * "components":{
+    *   "schemas":
+    *     "Data":
+    *       "properties":{
+    *         "id":
+    *           "type": "integer"
+    *           format: int32
+    *         "name":
+    *           "type": "string"
+    *         "description":
+    *           "type": "string"
+    *         "steward":
+    *           "type": "string"
+    *         "effective_date":
+    *           "type": "string"
+    *         identifier:
+    *           "type": "string"
+    *           }
+    *     Model0:
+    *       "properties":
+    *         "total":
+    *           "type": "string"
+    *         "data":
+    *           "type": array
+    *           "items":
+    *             $ref: '#/components/schemas/Data'
+    *       }
+    *   }
+
+///////////////////////////////////////////////////////////////
+
+
+
+ @OA\Property(
+     *                  property="name",
+     *                  type="string",
+     *                  description="Name of the Asset",
+     *                  maximum=255,
+     *                  example="Asset Name"
+     *              ),
+     *              @OA\Property(
+     *                  property="description",
+     *                  type="string",
+     *                  maximum=1000,
+     *                  description="Description of the Asset",
+     *                  example="Asset Description"
+     *              ),
+     *              @OA\Property(
+     *                  property="keywords",
+     *                  type="string",
+     *                  maximum=1000,
+     *                  description="Asset keywords with coma separated",
+     *                  example="Test,Demo"
+     *              ),
+     *              @OA\Property(
+     *                  property="effectiveDate",
+     *                  type="string",
+     *                  description="Effective start date of the Asset. Date time of the asset must be in ISO 8601 standard",
+     *                  example="2018-03-19T15:19:21+00:00"
+     *              ),
+     *              @OA\Property(
+     *                  property="expirationDate",
+     *                  type="string",
+     *                  description="Termination date of the Asset. Date time of the asset must be in ISO 8601 standard",
+     *                  example="2999-12-31T15:19:21+00:00"
+     *              ),
+     *              @OA\Property(
+     *                  property="contentTypeId",
+     *                  type="integer",
+     *       	        description="Content type Id of an Asset",
+     *                  example=1
+     *              )
+
+
+///////////////////////////////////////////////////////
+
+
+@OA\Response(response="200",
+     *     description="The User",
+     *     @OA\JsonContent(ref="#/components/schemas/user"),
+     *     @OA\Link(link="userRepositories", ref="#/components/links/UserRepositories")
+     *   )
+
+
+
+////////////////////////////////////////////////////////////
+
+
+
+
+/**
+     * @Route("/api/asset/create", name="user_asset_create",methods={"POST"})
+     * 
+     *     summary="Create new asset",
+     *     @OA\Parameter(
+     *          name="body",
+     *          in="body",
+     *          required=true,
+     *          @OA\Schema(
+     *               @OA\Property(
+     *                  property="name",
+     *                  type="string",
+     *                  description="Name of the Asset",
+     *                  maximum=255,
+     *                  example="Asset Name"
+     *              ),
+     *              @OA\Property(
+     *                  property="description",
+     *                  type="string",
+     *                  maximum=1000,
+     *                  description="Description of the Asset",
+     *                  example="Asset Description"
+     *              ),
+     *              @OA\Property(
+     *                  property="keywords",
+     *                  type="string",
+     *                  maximum=1000,
+     *                  description="Asset keywords with coma separated",
+     *                  example="Test,Demo"
+     *              ),
+     *              @OA\Property(
+     *                  property="effectiveDate",
+     *                  type="string",
+     *                  description="Effective start date of the Asset. Date time of the asset must be in ISO 8601 standard",
+     *                  example="2018-03-19T15:19:21+00:00"
+     *              ),
+     *              @OA\Property(
+     *                  property="expirationDate",
+     *                  type="string",
+     *                  description="Termination date of the Asset. Date time of the asset must be in ISO 8601 standard",
+     *                  example="2999-12-31T15:19:21+00:00"
+     *              ),
+     *              @OA\Property(
+     *                  property="contentTypeId",
+     *                  type="integer",
+     *       	        description="Content type Id of an Asset",
+     *                  example=1
+     *              )
+     *          )
+     *      )
+     * @OA\Response(
+     *     response=200,
+     *     description="Successful",
+     *     @OA\JsonContent(
+     *        type="array",
+     *        @OA\Items(ref=@Model(type=AssetManagerMaster::class, groups={"full"}))
+     *     )
+     * )
+     *   @OA\Response(
+     *     response="400",
+     *     description="BAD REQUEST",
+
+     *   ),
+     * @OA\Response(
+     *     response="401",
+     *     description="UnAuthorised",
+
+     *   ),
+     * @OA\Response(
+     *     response="404",
+     *     description="Not Found",
+
+     *   ),
+     * @OA\Response(
+     *     response="500",
+     *     description="Not Successful",
+
+     *   )
+     * 
+     * 
+     * @OA\Tag(name="Asset Manager")
+     * @Security(name="Bearer")     
+     */
+
+
+//////////////////////////////////////////////////////////
+
+@OA\Parameter(
+    *     name="file",
+    *     in="query",
+    *     required=false,
+    *     description="file to upload",
+    *     example="L2.fa14 (2).ppt",
+    *     @OA\Schema(type="file")
+    *      
+    * ),
+    *   @OA\Parameter(
+    *     name="file1",
+    *     in="query",
+    *     required=false,
+    *     description="Image to upload",
+    *     example="harsh signture.JPG",
+    *     @OA\Schema(type="image")
+    *      
+    * ),
+
+//////////////////////////////////////////////////////////////////
+
+
+@OA\RequestBody(
+ *     required=true,
+ *     description="Bulk products Body",
+ *     @OA\MediaType(
+ *       mediaType="multipart/form-data",
+ *       @OA\Schema(
+ *         @OA\Property(
+ *           property="file",
+ *           type="file",
+ *           
+ *         ),
+ *       ),
+ *     ),
+ * ),
