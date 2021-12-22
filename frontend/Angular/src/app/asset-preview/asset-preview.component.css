@@ -1,0 +1,63 @@
+body
+{
+  background-color: indianred;
+}
+.img
+{
+    position:absolute;
+    left:60rem;
+    top:8rem;
+}
+.b2
+  {
+    /* margin-right: -100px !important;
+    margin-top: 5px; */
+     padding: 0.5rem; 
+     position: relative;
+     left: 90%;
+     top:0.1rem;
+     margin: 10px;
+  }
+  
+  .c1
+  {
+    position:absolute;
+    
+    margin: 1rem 0px 0px 62rem;
+  
+  }
+  .inside
+  {
+    left: 1000px;
+    background-color:rgb(230, 220, 220);
+  
+  }
+  .c2
+  {
+    color: rgb(31, 32, 31);
+    margin: 1rem 1rem; 
+  }
+  .c3
+  {
+    background-color: greenyellow;
+  }
+  .c4
+  {
+    
+    margin: 0rem 0px 0px 8rem;
+  
+  }
+  .b8
+  {
+    position: relative;
+    left: 90%;
+    top:0.1rem;
+    margin: 10px;
+    
+  }
+  .b10
+  {
+    
+    left:68rem;
+    
+  }

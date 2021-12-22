@@ -1,0 +1,38 @@
+<!-- Image and text -->
+<div class="inside">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+  <a class="navbar-brand" href="#"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <img src="./assets/pic.png" width="45" height="45" class="d-inline-block align-top " alt="">
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <!-- <a class="btn btn-primary b8" routerLink='/asset-list'>LIST </a>
+      <br>
+      <a class="btn btn-primary b8" routerLink='/asset-create'> CREATE</a> -->
+      <a class="btn btn-primary b2 b10" routerLink='/asset-list'><i class="bi bi-arrow-left"></i> BACK</a>
+    </div>
+  </div>
+</nav> 
+<div class="inside">
+  <h1 class="c2">PPT Preview-{{this.maindata[0].file_name}}</h1>
+
+<br>
+
+
+
+<!-- <b>Asset Id: </b>{{this.maindata[0].asset_id}}<br> -->
+<!-- <b>Name: </b>{{this.maindata[0].name}}<br> -->
+<!-- <b>File Name: </b>{{this.maindata[0].file_name}}<br> -->
+
+<!-- <iframe src='https://view.officeapps.live.com/op/embed.aspx?src=.\assets\Sample-PPT-File-500kb.ppt' width='100%' height='600px' frameborder='0'></iframe> -->
+
+ <!-- <ngx-doc-viewer url="src2" viewer="google"
+  style="width:100%;height:93vh;">
+</ngx-doc-viewer>  -->
+<!-- <iframe style="height: 75%; width:50%; display: block;"
+ngx-document src="https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fcourses.engr.illinois.edu%2Fcs425%2Ffa2014%2FL2.fa14.ppt&wdOrigin=BROWSELINK"
+ provider="office"></iframe> -->
+ <iframe [src]="url1" class="c4" style="width:1000px; height:600px;" frameborder="2"></iframe>
+</div>
